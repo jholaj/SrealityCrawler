@@ -7,17 +7,20 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 import psycopg2
+import sys
+
+sys.path.insert(0, '../config')
+import config
 
 class PostgreSQLPipeline:
     def __init__(self):
         # Connection Details
-        hostname = 'postgres'
-        username = 'postgres'
-        password = 'postgres'
-        database = 'flats'
-        port = '5432'
+        hostname = config.DB_CONFIG['hostname']
+        username = config.DB_CONFIG['username']
+        password = config.DB_CONFIG['password']
+        database = config.DB_CONFIG['database']
+        port = config.DB_CONFIG['port']
 
-        
         # connecting to db...
         self.connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database, port=port)
         self.cursor = self.connection.cursor()

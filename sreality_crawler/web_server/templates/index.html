@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estates</title>
+    <style>
+        /* grid layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 3fr));
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+        }
+        .grid-item {
+            text-align: center;
+        }
+        .grid-item img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Estates</h1>
+    <ul class="grid-container">
+        {% for estate in estates %}
+        <li class="grid-item">
+            <img src="{{ estate['image_url'] }}" alt="{{ estate['title'] }}">
+            <h2>{{ estate['title'] }}</h2>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

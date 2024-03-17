@@ -3,10 +3,11 @@ version: '3'
 services:
   sreality_crawler:
     build: .
-    volumes:
-      - ./sreality_crawler:/app/sreality_crawler
     depends_on:
       - postgres
+    restart:
+      # if postgres wasnt initialized
+      on-failure
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
@@ -17,7 +18,21 @@ services:
 
   postgres:
     image: postgres:latest
+    restart: always
     environment:
       - POSTGRES_DB=flats
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=postgres
+
+  web_server:
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on: 
+      sreality_crawler:
+          # run after crawling finished
+          condition: service_completed_successfully
+    command: 'python web_server/app.py'
+    
